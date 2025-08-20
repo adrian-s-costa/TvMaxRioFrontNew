@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function VideoCard({ image, title, subtitle }: any) {
+export default function VideoCard({ image, title, subtitle }: {image: string, title: string, subtitle: string}) {
   return (
     <Link href={'/program'}>
       <div className="group relative w-[343px] h-[244px] rounded-xl overflow-hidden border border-white/20">

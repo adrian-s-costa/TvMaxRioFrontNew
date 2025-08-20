@@ -97,17 +97,17 @@ const customTheme = {
         </div>
       </TabItem>
       <TabItem title="Temporada 2">
-        This is <span className="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</span>.
+        This is <span className="font-medium text-gray-800 dark:text-white">Dashboard tas associated content</span>.
         Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
         control the content visibility and styling.
       </TabItem>
       <TabItem title="Temporada 3">
-        This is <span className="font-medium text-gray-800 dark:text-white">Settings tab's associated content</span>.
+        This is <span className="font-medium text-gray-800 dark:text-white">Settings tabs associated content</span>.
         Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
         control the content visibility and styling.
       </TabItem>
       <TabItem title="Temporada 4">
-        This is <span className="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</span>.
+        This is <span className="font-medium text-gray-800 dark:text-white">Contacts tabs associated content</span>.
         Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
         control the content visibility and styling.
       </TabItem>

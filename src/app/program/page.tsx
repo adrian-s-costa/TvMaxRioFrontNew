@@ -1,11 +1,12 @@
 import { Badge } from "@/components/ui/badge"
 import { TabComponent } from "../components/tabs"
+import Image from "next/image"
 
 function Program() {
   return (
     <div className='min-h-screen h-full w-full bg-[#141414] relative font-[Poppins]'>
         <div className='w-full flex justify-between pt-[20px] z-10 absolute'>
-          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px]' />
+          <Image src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px]' />
 
           <div>
             <ul className='flex text-white items-center gap-[30px] mr-[40px] w-full'>
@@ -33,10 +34,10 @@ function Program() {
                 <h2 className="text-[18px] font-bold">Assitir T1 E1</h2>
                 <div className="flex ml-5 gap-2">
                   <button className="rounded-full w-[48px] h-[48px] bg-[#FF383C80] cursor-pointer flex justify-center items-center">
-                    <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755708128/Vector_t3kyxt.png" alt="" />
+                    <Image src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755708128/Vector_t3kyxt.png" alt="" />
                   </button>
                   <button className="rounded-full w-[48px] h-[48px] bg-[#FF383C80] cursor-pointer flex justify-center items-center">
-                    <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755708126/Vector_1_yhevuf.png" alt="" />
+                    <Image src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755708126/Vector_1_yhevuf.png" alt="" />
                   </button>
                 </div>
               </div>

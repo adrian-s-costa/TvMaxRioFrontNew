@@ -1,4 +1,4 @@
-const PlanosCard = ({ plano, desc, amount, billing }) => {
+const PlanosCard = ({ plano, desc, amount, billing }: {plano: string, desc: string, amount: string, billing: string}) => {
   return (
     <div className="flex justify-start p-12 bg-[#1A1A1A] rounded-lg h-auto w-[33%] flex-col">
       <h1 className="font-bold text-[24px] mb-[16px] text-white">
