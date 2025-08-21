@@ -1,9 +1,40 @@
+"use client"
+
 import Image from "next/image";
 import VideoCard from './components/programsCards'
 import LaptopsCard from './components/ondeEstamosCard'
 import PlanosCard from './components/planosCard'
+import { useRef } from "react";
+
+interface FullscreenIframe extends HTMLIFrameElement {
+  mozRequestFullScreen?: () => Promise<void> | void;
+  webkitRequestFullscreen?: () => Promise<void> | void;
+  msRequestFullscreen?: () => Promise<void> | void;
+}
 
 export default function Home() {
+
+    const iframeRef = useRef<FullscreenIframe | null>(null);
+
+  const handleFullscreen = () => {
+    console.log("a")
+    const iframe = iframeRef.current;
+
+    if (!iframe) return;
+
+    console.log(iframe)
+
+    if (iframe.requestFullscreen) {
+      iframe.requestFullscreen();
+    } else if (iframe.mozRequestFullScreen) {
+      iframe.mozRequestFullScreen();
+    } else if (iframe.webkitRequestFullscreen) {
+      iframe.webkitRequestFullscreen();
+    } else if (iframe.msRequestFullscreen) {
+      iframe.msRequestFullscreen();
+    }
+  };
+
   return (
     <>
       <div className='h-full w-full bg-[#141414] relative font-[Poppins]'>
@@ -21,15 +52,32 @@ export default function Home() {
         </div>
 
         
-        <div className="w-full h-[45rem] bg-[url(https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655252/b9c740d1d10c247dc76958a892f54d110022ab2d_zrncwn.jpg)] bg-cover bg-center relative">
-          <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414]"></div>
-          <div className='absolute top-[350px] left-[128px] w-[592px] h-[135px] mb-[19px]'>
-            <h1 className='text-[58px] text-[#BC0000] italic'>TV AO VIVO</h1>
-            <h2 className='text-[18px] text-[#999999] '>
-              Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você encontra notícias locais, cultura, turismo, esportes, eventos e muito mais, tudo com uma pegada dinâmica e atualizada.  
-            </h2>
-          </div>
-        </div>
+        <div className="w-full h-[45rem] relative overflow-hidden">
+  {/* Player em iframe */}
+  <iframe
+    ref={iframeRef}
+    className="absolute inset-0 w-full h-full object-cover"
+    src="https://player.logicahost.com.br/player.php?player=1856"
+    frameBorder="0"
+    allow="autoplay; fullscreen"
+    allowFullScreen
+  ></iframe>
+
+  {/* Overlay de gradiente */}
+  <div onClick={handleFullscreen} className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414]"></div>
+
+  {/* Texto acima do player */}
+  <div className="absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg">
+    <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
+    <h2 className="text-[18px] text-[#ffffff]">
+      Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
+      conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
+      encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
+      tudo com uma pegada dinâmica e atualizada.
+    </h2>
+  </div>
+</div>
+
 
         <div>
           <h1 className='text-[48px] mt-14 mb-[16px] text-white font-bold ml-10'>
