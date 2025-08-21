@@ -4,7 +4,7 @@ import Image from "next/image";
 import VideoCard from './components/programsCards'
 import LaptopsCard from './components/ondeEstamosCard'
 import PlanosCard from './components/planosCard'
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface FullscreenIframe extends HTMLIFrameElement {
   mozRequestFullScreen?: () => Promise<void> | void;
@@ -14,15 +14,14 @@ interface FullscreenIframe extends HTMLIFrameElement {
 
 export default function Home() {
 
+  const [textOpen, setTextOpen] = useState(true);
+
     const iframeRef = useRef<FullscreenIframe | null>(null);
 
   const handleFullscreen = () => {
-    console.log("a")
     const iframe = iframeRef.current;
 
     if (!iframe) return;
-
-    console.log(iframe)
 
     if (iframe.requestFullscreen) {
       iframe.requestFullscreen();
@@ -64,10 +63,13 @@ export default function Home() {
   ></iframe>
 
   {/* Overlay de gradiente */}
-  <div onClick={handleFullscreen} className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414]"></div>
+  <div onClick={handleFullscreen} className={`absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414] transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}></div>
 
   {/* Texto acima do player */}
-  <div className="absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg">
+  <div className={`absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
+    <div onClick={()=>{ setTextOpen(false) }} className="absolute cursor-pointer right-[-10] top-[-10] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md">
+      <h1 className="text-[25px] font-semibold text-white">X</h1>
+    </div>
     <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
     <h2 className="text-[18px] text-[#ffffff]">
       Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
