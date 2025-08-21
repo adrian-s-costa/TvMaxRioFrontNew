@@ -35,24 +35,24 @@ export default function Home() {
           <h1 className='text-[48px] mt-14 mb-[16px] text-white font-bold ml-10'>
             Programas
           </h1>
-          <div className='flex mx-10 justify-between'>
+          <div className='flex mx-10 justify-between flex-wrap'>
             <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795981/9cb9afbdaf1462db6c94f787dfca003bcfad04b3_acox5e.png"
               title="Conexão 21"
               subtitle="Segunda às 20h"
             />
             <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795980/e03af751d9d990a5390a7780593f6c1ab2c367f8_bletly.png"
               title="Conexão 21"
               subtitle="Segunda às 20h"
             />
             <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755796009/bb7e487a6c2e70451b1552f9a61bf3544fe92849_o0n5vi.png"
               title="Conexão 21"
               subtitle="Segunda às 20h"
             />
             <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795980/9d63e5d720d279c0d719f3a321cfc8db98d00c74_yyy6oq.png"
               title="Conexão 21"
               subtitle="Segunda às 20h"
             />

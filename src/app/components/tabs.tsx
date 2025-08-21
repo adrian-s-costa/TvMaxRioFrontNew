@@ -68,48 +68,75 @@ const customTheme = {
     <ThemeProvider theme={customTheme}>
     <Tabs className="" aria-label="Tabs with icons" variant="underline">
       <TabItem active title="Temporada 1" className="">
-        <div className='flex justify-between'>
+        <div className='flex gap-5 flex-wrap'>
           <VideoCard
-            image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+            image="empty"
             title="Conexão 21"
             subtitle="Segunda às 20h"
           />
           <VideoCard
-            image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+            image="empty"
             title="Conexão 21"
             subtitle="Segunda às 20h"
           />
           <VideoCard
-            image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+            image="empty"
             title="Conexão 21"
             subtitle="Segunda às 20h"
           />
           <VideoCard
-            image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+            image="empty"
             title="Conexão 21"
             subtitle="Segunda às 20h"
           />
           <VideoCard
-            image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
+            image="empty"
             title="Conexão 21"
             subtitle="Segunda às 20h"
           />
         </div>
       </TabItem>
       <TabItem title="Temporada 2">
-        This is <span className="font-medium text-gray-800 dark:text-white">Dashboard tas associated content</span>.
-        Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-        control the content visibility and styling.
+       <div className='flex gap-5 flex-wrap'>
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+        </div>
       </TabItem>
       <TabItem title="Temporada 3">
-        This is <span className="font-medium text-gray-800 dark:text-white">Settings tabs associated content</span>.
-        Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-        control the content visibility and styling.
+        <div className='flex gap-5 flex-wrap'>
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+        </div>
       </TabItem>
       <TabItem title="Temporada 4">
-        This is <span className="font-medium text-gray-800 dark:text-white">Contacts tabs associated content</span>.
-        Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-        control the content visibility and styling.
+        <div className='flex gap-5 flex-wrap'>
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+          <VideoCard
+            image="empty"
+            title="Conexão 21"
+            subtitle="Segunda às 20h"
+          />
+        </div>
       </TabItem>
     </Tabs>
     </ThemeProvider>
