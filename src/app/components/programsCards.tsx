@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function VideoCard({ image, title, subtitle }: {image: string, title: string, subtitle: string}) {
   return (
     <Link href={'/program'}>
-      <div className="group relative w-[343px] h-[244px] rounded-xl overflow-hidden border border-white/20 bg-zinc-800">
+      <div className="group relative w-[206px] h-[106px] md:w-[343px] md:h-[244px] rounded-xl overflow-hidden border border-white/20 bg-zinc-800">
         {/* Imagem */}
         <img
           src={image}

@@ -1,9 +1,6 @@
 "use client"
 
-import Image from "next/image";
 import VideoCard from './components/programsCards'
-import LaptopsCard from './components/ondeEstamosCard'
-import PlanosCard from './components/planosCard'
 import { useRef, useState } from "react";
 
 interface FullscreenIframe extends HTMLIFrameElement {
@@ -18,30 +15,31 @@ export default function Home() {
 
     const iframeRef = useRef<FullscreenIframe | null>(null);
 
-  const handleFullscreen = () => {
-    const iframe = iframeRef.current;
+    const handleFullscreen = () => {
+      const iframe = iframeRef.current;
 
-    if (!iframe) return;
+      if (!iframe) return;
 
-    if (iframe.requestFullscreen) {
-      iframe.requestFullscreen();
-    } else if (iframe.mozRequestFullScreen) {
-      iframe.mozRequestFullScreen();
-    } else if (iframe.webkitRequestFullscreen) {
-      iframe.webkitRequestFullscreen();
-    } else if (iframe.msRequestFullscreen) {
-      iframe.msRequestFullscreen();
-    }
-  };
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.mozRequestFullScreen) {
+        iframe.mozRequestFullScreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+      }
+    };
 
   return (
     <>
-      <div className='h-full w-full bg-[#141414] relative font-[Poppins]'>
+      <div className=' w-full bg-[#141414] relative font-[Poppins]'>
         <div className='w-full flex justify-between pt-[20px] z-10 absolute'>
-          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px]' />
-
+          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px] md:block hidden ' />
+          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={40} height={90} alt="logo" className='text-white ml-[20px] block md:hidden' />
+          
           <div>
-            <ul className='flex text-white h-full items-center gap-[30px] mr-[40px] w-full'>
+            <ul className='hidden md:flex text-white h-full items-center gap-[30px] mr-[40px] w-full'>
               <li className='cursor-pointer w-auto'>Ao Vivo</li>
               <li className='cursor-pointer w-auto'>Programas</li>
               <li className='cursor-pointer w-auto'>Contato</li>
@@ -66,7 +64,7 @@ export default function Home() {
   <div onClick={handleFullscreen} className={`absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414] transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}></div>
 
   {/* Texto acima do player */}
-  <div className={`absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
+  <div className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
     <div onClick={()=>{ setTextOpen(false) }} className="absolute cursor-pointer right-[-10] top-[-10] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md">
       <h1 className="text-[25px] font-semibold text-white">X</h1>
     </div>
@@ -78,14 +76,26 @@ export default function Home() {
       tudo com uma pegada dinâmica e atualizada.
     </h2>
   </div>
+
+   <div className={`mt-[100%] max-[mt-[501px]] block md:hidden w-full justify-center h-auto p-5 z-10 backdrop-blur-md `}>
+    <h1 className="text-[28px] text-[#bc0000] italic w-full flex justify-center">TV AO VIVO</h1>
+    <h2 className="text-[14px] text-center text-[#ffffff] w-full flex justify-center">
+      Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
+      conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
+      encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
+      tudo com uma pegada dinâmica e atualizada.
+    </h2>
+  </div> 
+
 </div>
 
 
+
         <div>
-          <h1 className='text-[48px] mt-14 mb-[16px] text-white font-bold ml-10'>
+          <h1 className='md:text-[48px] text-[24px] mt-14 mb-[16px] text-white font-bold ml-10'>
             Programas
           </h1>
-          <div className='flex mx-10 justify-between flex-wrap'>
+          <div className='flex mx-10 justify-between gap-2 pb-24 overflow-x-scroll'>
             <VideoCard
               image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795981/9cb9afbdaf1462db6c94f787dfca003bcfad04b3_acox5e.png"
               title="Conexão 21"
@@ -110,54 +120,6 @@ export default function Home() {
               image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
               title="Conexão 21"
               subtitle="Segunda às 20h"
-            />
-          </div>
-        </div>
-
-        <div className='px-10'>
-          <h1 className='text-[48px] mt-14 mb-[16px] text-white font-bold'>
-            Onde estamos
-          </h1>
-
-          <h2 className='text-[18px] mb-10 text-[#999999] '>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing.
-          </h2>
-
-          <div className='flex justify-between'>
-            <LaptopsCard/>
-            <LaptopsCard/>
-            <LaptopsCard/>
-          </div>
-        </div>
-
-
-        <div className='px-10'>
-          <h1 className='text-[48px] mt-14 mb-[16px] text-white font-bold'>
-            Planos
-          </h1>
-
-          <h2 className='text-[18px] mb-10 text-[#999999]'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. Nam mattis, felis ut adipiscing.
-          </h2>
-
-          <div className='flex justify-between pb-24'>
-            <PlanosCard
-              plano={"Plano 1"}
-              desc={'"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.'}
-              amount={'100'}
-              billing={'Mensal'}
-            />
-            <PlanosCard
-              plano={"Plano 1"}
-              desc={'"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.'}
-              amount={'100'}
-              billing={'Mensal'}
-            />
-            <PlanosCard
-              plano={"Plano 1"}
-              desc={'"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa.'}
-              amount={'100'}
-              billing={'Mensal'}
             />
           </div>
         </div>
