@@ -9,7 +9,7 @@ const customTheme = {
     tablist: {
       base: "flex text-center",
       variant: {
-        default: "flex-wrap border-b border-gray-200 dark:border-gray-700",
+        default: "overflow-x-scroll border-b border-gray-200 dark:border-gray-700",
         underline: "-mb-px flex-wrap border-b border-gray-200 dark:border-gray-700",
         pills:
           "flex-wrap space-x-2 text-sm font-medium text-gray-500 dark:text-gray-400",
@@ -68,7 +68,7 @@ const customTheme = {
     <ThemeProvider theme={customTheme}>
     <Tabs className="" aria-label="Tabs with icons" variant="underline">
       <TabItem active title="Temporada 1" className="">
-        <div className='flex gap-5 flex-wrap'>
+        <div className='flex gap-5 overflow-x-auto'>
           <VideoCard
             image="empty"
             title="Conexão 21"
@@ -97,7 +97,7 @@ const customTheme = {
         </div>
       </TabItem>
       <TabItem title="Temporada 2">
-       <div className='flex gap-5 flex-wrap'>
+       <div className='flex gap-5 overflow-x-auto'>
           <VideoCard
             image="empty"
             title="Conexão 21"
@@ -106,7 +106,7 @@ const customTheme = {
         </div>
       </TabItem>
       <TabItem title="Temporada 3">
-        <div className='flex gap-5 flex-wrap'>
+        <div className='flex gap-5 overflow-x-auto'>
           <VideoCard
             image="empty"
             title="Conexão 21"
@@ -120,7 +120,7 @@ const customTheme = {
         </div>
       </TabItem>
       <TabItem title="Temporada 4">
-        <div className='flex gap-5 flex-wrap'>
+        <div className='flex gap-5 overflow-x-auto'>
           <VideoCard
             image="empty"
             title="Conexão 21"

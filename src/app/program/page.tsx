@@ -6,10 +6,11 @@ function Program() {
   return (
     <div className='min-h-screen h-full w-full bg-[#141414] relative font-[Poppins]'>
         <div className='w-full flex justify-between pt-[20px] z-10 absolute'>
-          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px]' />
-
+          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px] md:block hidden ' />
+          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={40} height={90} alt="logo" className='text-white ml-[20px] block md:hidden' />
+          
           <div>
-            <ul className='flex text-white items-center gap-[30px] mr-[40px] w-full'>
+            <ul className='hidden md:flex text-white h-full items-center gap-[30px] mr-[40px] w-full'>
               <li className='cursor-pointer w-auto'>Ao Vivo</li>
               <li className='cursor-pointer w-auto'>Programas</li>
               <li className='cursor-pointer w-auto'>Contato</li>
@@ -18,11 +19,11 @@ function Program() {
           </div>
         </div>
         
-        <div className="w-full min-h-screen h-[64rem] bg-[url(https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655252/b9c740d1d10c247dc76958a892f54d110022ab2d_zrncwn.jpg)] bg-cover bg-center relative">
-          <div className="absolute h-full inset-0 bg-gradient-to-r from-[#141414]  via-transparent via-60% to-transparent">
-            <div className="w-[32%] text-white pt-[188px] pl-[108px]">
+        <div className="w-full min-h-screen h-[56rem] xl:h-[64rem] bg-[url(https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655252/b9c740d1d10c247dc76958a892f54d110022ab2d_zrncwn.jpg)] bg-cover bg-center relative">
+          <div className="absolute h-full inset-0 xl:bg-gradient-to-r bg-[#14141449] xl:from-[#141414]  xl:via-transparent xl:via-60% xl:to-transparent">
+            <div className="w-full xl:w-[32%] text-white pt-[188px] p-5 xl:pl-[108px]">
               <h1 className="text-[48px] font-bold">Conexão 21</h1>
-              <div className="flex justify-between mt-[24px]">
+              <div className="flex justify-between mt-[24px] max-w-[26rem]">
                 <h2>2036</h2>
                 <h2>99 Temporadas</h2>
                 <Badge variant={'outline'} className="text-white">Categoria</Badge>
@@ -42,7 +43,7 @@ function Program() {
                 </div>
               </div>
             </div>
-            <div className="pl-[108px] mt-20">
+            <div className="p-5 xl:pl-[108px] mt-5 xl:mt-20">
               <TabComponent/>
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import VideoCard from '../components/programsCards'
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface FullscreenIframe extends HTMLIFrameElement {
   mozRequestFullScreen?: () => Promise<void> | void;
@@ -10,6 +10,21 @@ interface FullscreenIframe extends HTMLIFrameElement {
 }
 
 export default function Home() {
+  const [viewportWidth, setViewportWidth] = useState<number>(0);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    setViewportWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const [textOpen, setTextOpen] = useState(true);
 
@@ -48,48 +63,46 @@ export default function Home() {
           </div>
         </div>
 
-        
-        <div className="w-full h-[45rem] relative overflow-hidden">
-  {/* Player em iframe */}
-  <iframe
-    ref={iframeRef}
-    className="absolute inset-0 w-full h-full object-cover"
-    src="https://player.logicahost.com.br/player.php?player=1856"
-    frameBorder="0"
-    allow="autoplay; fullscreen"
-    allowFullScreen
-  ></iframe>
+        <div className="w-full relative md:h-[45rem] md:overflow-x-hidden">
+          {/* Player em iframe */}
+          <iframe
+            ref={iframeRef}
+            className="md:absolute inset-0 md:w-full md:h-full object-cover"
+            src="https://player.logicahost.com.br/player.php?player=1856"
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            width={viewportWidth}
+            height={(viewportWidth / 16) * 9}
+          ></iframe>
 
-  {/* Overlay de gradiente */}
-  <div onClick={handleFullscreen} className={`absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-[#141414] transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}></div>
+          {/* Overlay de gradiente */}
+          <div onClick={handleFullscreen} className={`absolute md:flex flex inset-0 bg-gradient-to-b md:h-full h-[57vw] from-[#141414] via-transparent to-[#141414] transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}></div>
 
-  {/* Texto acima do player */}
-  <div className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
-    <div onClick={()=>{ setTextOpen(false) }} className="absolute cursor-pointer right-[-10] top-[-10] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md">
-      <h1 className="text-[25px] font-semibold text-white">X</h1>
-    </div>
-    <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
-    <h2 className="text-[18px] text-[#ffffff]">
-      Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
-      conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
-      encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
-      tudo com uma pegada dinâmica e atualizada.
-    </h2>
-  </div>
+          {/* Texto acima do player */}
+          <div className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
+            <div onClick={()=>{ setTextOpen(false) }} className="absolute cursor-pointer right-[-10] top-[-10] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md">
+              <h1 className="text-[25px] font-semibold text-white">X</h1>
+            </div>
+            <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
+            <h2 className="text-[18px] text-[#ffffff]">
+              Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
+              conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
+              encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
+              tudo com uma pegada dinâmica e atualizada.
+            </h2>
+          </div>
 
-   <div className={`mt-[100%] max-[mt-[501px]] block md:hidden w-full justify-center h-auto p-5 z-10 backdrop-blur-md `}>
-    <h1 className="text-[28px] text-[#bc0000] italic w-full flex justify-center">TV AO VIVO</h1>
-    <h2 className="text-[14px] text-center text-[#ffffff] w-full flex justify-center">
-      Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
-      conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
-      encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
-      tudo com uma pegada dinâmica e atualizada.
-    </h2>
-  </div> 
-
-</div>
-
-
+          <div className={`md:mt-[100%] mt-[${viewportWidth + 'px'}] block md:hidden w-full justify-center h-auto p-5 z-10 backdrop-blur-md `}>
+            <h1 className="text-[28px] text-[#bc0000] italic w-full flex justify-center">TV AO VIVO</h1>
+            <h2 className="text-[14px] text-center text-[#ffffff] w-full flex justify-center">
+              Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
+              conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
+              encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
+              tudo com uma pegada dinâmica e atualizada.
+            </h2>
+          </div> 
+        </div>
 
         <div>
           <h1 className='md:text-[48px] text-[24px] mt-14 mb-[16px] text-white font-bold ml-10'>
