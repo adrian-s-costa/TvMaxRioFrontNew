@@ -1,6 +1,6 @@
 "use client"
 
-import VideoCard from './components/programsCards'
+import VideoCard from '../app/components/programsCards'
 import { useRef, useState } from "react";
 
 interface FullscreenIframe extends HTMLIFrameElement {
