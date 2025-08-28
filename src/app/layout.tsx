@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +34,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleOAuthProvider clientId="157105380690-b5l5e6uqrn7ic0on112ag3t9rd399ip1.apps.googleusercontent.com">
       <body
         className={`${geistSans.variable} ${poppins.variable} antialiased bg-[#141414]`}
       >
         {children}
       </body>
+      </GoogleOAuthProvider>
     </html>
   );
 }
