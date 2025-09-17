@@ -1,7 +1,8 @@
 import { TabItem, Tabs, createTheme, ThemeProvider } from "flowbite-react";
 import VideoCard from "./programsCards";
+import VideoCardWatch from "./programsCardsWatch";
 
-export function TabComponent() {
+export function TabComponent({ seasons }: {seasons: any}) {
 
 const customTheme = {
   tabs: {
@@ -67,77 +68,21 @@ const customTheme = {
   return (
     <ThemeProvider theme={customTheme}>
     <Tabs className="" aria-label="Tabs with icons" variant="underline">
-      <TabItem active title="Temporada 1" className="">
-        <div className='flex gap-5 overflow-x-auto'>
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-        </div>
-      </TabItem>
-      <TabItem title="Temporada 2">
-       <div className='flex gap-5 overflow-x-auto'>
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-        </div>
-      </TabItem>
-      <TabItem title="Temporada 3">
-        <div className='flex gap-5 overflow-x-auto'>
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-        </div>
-      </TabItem>
-      <TabItem title="Temporada 4">
-        <div className='flex gap-5 overflow-x-auto'>
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-          <VideoCard
-            image="empty"
-            title="Conexão 21"
-            subtitle="Segunda às 20h"
-          />
-        </div>
-      </TabItem>
+
+      {seasons && seasons.map((season: any, index: number) => {
+        return <TabItem active title={season.name} className="">
+          <div className='flex gap-5 overflow-x-auto'>
+            {season.episodes.map((episode: any, index: number)=>{
+              return <VideoCardWatch
+                image={episode.thumbnailSrc}
+                title={episode.name}
+                subtitle={episode.description}
+                showSrc={episode.source}
+              />
+            })}
+          </div>
+        </TabItem>
+      })}
     </Tabs>
     </ThemeProvider>
   );

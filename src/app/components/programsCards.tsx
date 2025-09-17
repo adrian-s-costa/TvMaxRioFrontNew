@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function VideoCard({ image, title, subtitle }: {image: string, title: string, subtitle: string}) {
+export default function VideoCard({ image, title, subtitle, showId }: {image: string, title: string, subtitle: string, showId: string}) {
   return (
-    <Link href={'/program'}>
+    <Link href={`/program/${showId}`}>
       <div className="group relative w-[206px] h-[106px] md:w-[343px] md:h-[244px] rounded-xl overflow-hidden border border-white/20 bg-zinc-800">
         {/* Imagem */}
         <img

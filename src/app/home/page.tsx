@@ -1,7 +1,11 @@
 "use client"
 
+import Link from 'next/link';
+import { urlApi } from '../../../urlApi';
 import VideoCard from '../components/programsCards'
 import { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface FullscreenIframe extends HTMLIFrameElement {
   mozRequestFullScreen?: () => Promise<void> | void;
@@ -11,8 +15,39 @@ interface FullscreenIframe extends HTMLIFrameElement {
 
 export default function Home() {
   const [viewportWidth, setViewportWidth] = useState<number>(0);
+  const [tvShows, setTvShows] = useState([]);
+
+  const notify = (text: string) => toast.error(text , {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  });
   
+  async function getTvShows() {
+    const res = await fetch(urlApi.API_URL + `/tvmax`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        "ngrok-skip-browser-warning": "69420"
+      },
+    })
+    
+    if (!res.ok) {
+      notify(res.statusText)
+      throw new Error('Failed to log in');
+    }
+
+    return setTvShows(await res.json())        
+  }
+
   useEffect(() => {
+    getTvShows();
+
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -109,31 +144,18 @@ export default function Home() {
             Programas
           </h1>
           <div className='flex mx-10 justify-between gap-2 pb-24 overflow-x-scroll'>
-            <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795981/9cb9afbdaf1462db6c94f787dfca003bcfad04b3_acox5e.png"
-              title="Conexão 21"
-              subtitle="Segunda às 20h"
-            />
-            <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795980/e03af751d9d990a5390a7780593f6c1ab2c367f8_bletly.png"
-              title="Conexão 21"
-              subtitle="Segunda às 20h"
-            />
-            <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755796009/bb7e487a6c2e70451b1552f9a61bf3544fe92849_o0n5vi.png"
-              title="Conexão 21"
-              subtitle="Segunda às 20h"
-            />
-            <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755795980/9d63e5d720d279c0d719f3a321cfc8db98d00c74_yyy6oq.png"
-              title="Conexão 21"
-              subtitle="Segunda às 20h"
-            />
-            <VideoCard
-              image="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755659104/3c575843646e55ad599a10779f42f2eea6934552_1_ijgpfl.png"
-              title="Conexão 21"
-              subtitle="Segunda às 20h"
-            />
+
+            {tvShows && tvShows
+              // .filter((carro: any) => carro.uf.includes(uf))
+              .map((tvShow: any, index: number) => {
+                return <VideoCard
+                  image={tvShow.showThumbSrc}
+                  title={tvShow.name}
+                  subtitle={tvShow.showFrequency} 
+                  showId={tvShow.id}
+                  key={tvShow.id}          
+                />
+              })}
           </div>
         </div>
       </div>
