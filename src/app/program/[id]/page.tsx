@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Loader from "@/app/components/loader";
 import { useRef } from "react";
 
-function Program({ params }: { params: { id: string } }) {
+function Program({ params }: any ) {
 
   interface Episode {
     name: string;
