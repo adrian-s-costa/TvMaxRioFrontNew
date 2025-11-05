@@ -39,9 +39,16 @@ export default function TopNav() {
               )}
             </li>
           </Link>
-          <Link href="/home">
-            <li className='relative cursor-pointer w-auto text-white hover:text-[#bc0000] transition-all duration-300 ease-in-out hover:scale-105'>
+          <Link href="/programs">
+            <li className={`relative cursor-pointer w-auto transition-all duration-300 ease-in-out ${
+              pathname === '/programs' 
+                ? 'text-[#bc0000] scale-110' 
+                : 'text-white hover:text-[#bc0000] hover:scale-105'
+            }`}>
               <span className="relative z-10">Programas</span>
+              {pathname === '/programs' && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#bc0000] animate-pulse"></span>
+              )}
             </li>
           </Link>
           <Link href="/home">

@@ -18,7 +18,6 @@ interface FullscreenIframe extends HTMLIFrameElement {
 export default function Home() {
   const [viewportWidth, setViewportWidth] = useState<number>(0);
   const [tvShows, setTvShows] = useState([]);
-  const [isIOS, setIsIOS] = useState(false);
 
   const notify = (text: string) => toast.error(text , {
     position: "bottom-right",
@@ -51,12 +50,6 @@ export default function Home() {
   useEffect(() => {
     getTvShows();
 
-    // Detecta se está em iOS (incluindo webview)
-    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-    const isIOSDevice = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
-    const isWebView = (window as any).webkit?.messageHandlers || (window as any).ReactNativeWebView;
-    setIsIOS(isIOSDevice || isWebView);
-
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -73,61 +66,20 @@ export default function Home() {
   const [textOpen, setTextOpen] = useState(true);
 
     const iframeRef = useRef<FullscreenIframe | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const handleFullscreen = async () => {
+    const handleFullscreen = () => {
       const iframe = iframeRef.current;
-      const container = containerRef.current;
 
-      if (!iframe || !container) return;
+      if (!iframe) return;
 
-      try {
-        // Para iOS, tenta entrar em fullscreen com o container (wrapper do iframe)
-        if (isIOS) {
-          // Cria um elemento wrapper para fullscreen no iOS
-          const wrapper = container.parentElement;
-          if (wrapper) {
-            if ((wrapper as any).webkitEnterFullscreen) {
-              (wrapper as any).webkitEnterFullscreen();
-              return;
-            }
-            
-            // Tenta fullscreen no container
-            if ((wrapper as any).webkitRequestFullscreen) {
-              await (wrapper as any).webkitRequestFullscreen();
-              return;
-            }
-          }
-        }
-
-        // Para outros navegadores, tenta fullscreen no iframe primeiro
-        if (iframe.requestFullscreen) {
-          await iframe.requestFullscreen();
-        } else if (iframe.webkitRequestFullscreen) {
-          await iframe.webkitRequestFullscreen();
-        } else if (iframe.mozRequestFullScreen) {
-          await iframe.mozRequestFullScreen();
-        } else if (iframe.msRequestFullscreen) {
-          await iframe.msRequestFullscreen();
-        } else {
-          // Fallback: tenta fullscreen no container
-          if (container.requestFullscreen) {
-            await container.requestFullscreen();
-          } else if ((container as any).webkitRequestFullscreen) {
-            await (container as any).webkitRequestFullscreen();
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao entrar em fullscreen:', error);
-        // Em caso de erro, tenta fazer o container ocupar toda a tela
-        if (container) {
-          container.style.position = 'fixed';
-          container.style.top = '0';
-          container.style.left = '0';
-          container.style.width = '100vw';
-          container.style.height = '100vh';
-          container.style.zIndex = '9999';
-        }
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.mozRequestFullScreen) {
+        iframe.mozRequestFullScreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
       }
     };
 
@@ -136,23 +88,17 @@ export default function Home() {
       <div className=' w-full bg-[#141414] relative font-[Poppins]'>
         <TopNav />
 
-        <div 
-          ref={containerRef}
-          className="w-full relative md:h-[45rem] md:overflow-x-hidden"
-        >
+        <div className="w-full relative md:h-[45rem] md:overflow-x-hidden">
           {/* Player em iframe */}
           <iframe
             ref={iframeRef}
-            className="md:absolute inset-0 md:w-full md:h-full object-cover w-full"
+            className="md:absolute inset-0 md:w-full md:h-full object-cover"
             src="https://player.logicahost.com.br/player.php?player=1856"
             frameBorder="0"
             allow="autoplay; fullscreen"
             allowFullScreen
-            width={viewportWidth || '100%'}
-            height={viewportWidth ? (viewportWidth / 16) * 9 : 'auto'}
-            style={{
-              minHeight: viewportWidth ? `${(viewportWidth / 16) * 9}px` : '56.25vw'
-            }}
+            width={viewportWidth}
+            height={(viewportWidth / 16) * 9}
           ></iframe>
 
           {/* Overlay de gradiente */}
