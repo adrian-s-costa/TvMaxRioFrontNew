@@ -1,6 +1,9 @@
+"use client"
+
 import { TabItem, Tabs, createTheme, ThemeProvider } from "flowbite-react";
 import VideoCard from "./programsCards";
 import VideoCardWatch from "./programsCardsWatch";
+import { EpisodesCarousel } from "./episodesCarousel";
 
 export function TabComponent({ seasons }: {seasons: any}) {
 
@@ -71,16 +74,17 @@ const customTheme = {
 
       {seasons && seasons.map((season: any, index: number) => {
         return <TabItem active title={season.name} className="">
-          <div className='flex gap-5 overflow-x-auto'>
+          <EpisodesCarousel title={season.name}>
             {season.episodes.map((episode: any, index: number)=>{
               return <VideoCardWatch
+                key={index}
                 image={episode.thumbnailSrc}
                 title={episode.name}
                 subtitle={episode.description}
                 showSrc={episode.source}
               />
             })}
-          </div>
+          </EpisodesCarousel>
         </TabItem>
       })}
     </Tabs>

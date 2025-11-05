@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { urlApi } from '../../../urlApi';
 import VideoCard from '../components/programsCards'
+import TopNav from '../components/topNav';
+import Carousel from '../components/carousel';
 import { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -84,19 +86,7 @@ export default function Home() {
   return (
     <>
       <div className=' w-full bg-[#141414] relative font-[Poppins]'>
-        <div className='w-full flex justify-between pt-[20px] z-10 absolute'>
-          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={60} height={110} alt="logo" className='text-white ml-[100px] md:block hidden ' />
-          <img src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" width={40} height={90} alt="logo" className='text-white ml-[20px] block md:hidden' />
-          
-          <div>
-            <ul className='hidden md:flex text-white h-full items-center gap-[30px] mr-[40px] w-full'>
-              <li className='cursor-pointer w-auto'>Ao Vivo</li>
-              <li className='cursor-pointer w-auto'>Programas</li>
-              <li className='cursor-pointer w-auto'>Contato</li>
-              <li className='cursor-pointer w-auto'>Programações</li>
-            </ul>
-          </div>
-        </div>
+        <TopNav />
 
         <div className="w-full relative md:h-[45rem] md:overflow-x-hidden">
           {/* Player em iframe */}
@@ -112,13 +102,31 @@ export default function Home() {
           ></iframe>
 
           {/* Overlay de gradiente */}
-          <div onClick={handleFullscreen} className={`absolute md:flex flex inset-0 bg-gradient-to-b md:h-full h-[57vw] from-[#141414] via-transparent to-[#141414] transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}></div>
+          <div 
+            onClick={handleFullscreen} 
+            className={`absolute md:flex flex inset-0 bg-gradient-to-b md:h-full h-[57vw] from-[#141414] via-transparent to-[#141414] transition-opacity duration-500 ease-in-out ${
+              !textOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            }`}
+          ></div>
 
           {/* Texto acima do player */}
-          <div className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-10 bg-white/30 backdrop-blur-md bg-backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${!textOpen ? 'hidden' : '' }`}>
-            <div onClick={()=>{ setTextOpen(false) }} className="absolute cursor-pointer right-[-10] top-[-10] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md">
-              <h1 className="text-[25px] font-semibold text-white">X</h1>
-            </div>
+          <div 
+            className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-20 bg-white/30 backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${
+              !textOpen 
+                ? 'opacity-0 translate-y-[-20px] scale-95 pointer-events-none' 
+                : 'opacity-100 translate-y-0 scale-100'
+            }`}
+          >
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setTextOpen(false);
+              }} 
+              className="absolute cursor-pointer -right-[10px] -top-[10px] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md hover:bg-white/50 transition-all duration-200 hover:scale-110 z-30"
+              aria-label="Fechar"
+            >
+              <span className="text-[25px] font-semibold text-white leading-none">×</span>
+            </button>
             <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
             <h2 className="text-[18px] text-[#ffffff]">
               Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
@@ -139,14 +147,9 @@ export default function Home() {
           </div> 
         </div>
 
-        <div>
-          <h1 className='md:text-[48px] text-[24px] mt-14 mb-[16px] text-white font-bold ml-10'>
-            Programas
-          </h1>
-          <div className='flex mx-10 justify-between gap-2 pb-24 overflow-x-scroll'>
-
+        <div className="mt-14 pb-24 md:pb-14 mx-10">
+          <Carousel title="Programas">
             {tvShows && tvShows
-              // .filter((carro: any) => carro.uf.includes(uf))
               .map((tvShow: any, index: number) => {
                 return <VideoCard
                   image={tvShow.showThumbSrc}
@@ -156,7 +159,7 @@ export default function Home() {
                   key={tvShow.id}          
                 />
               })}
-          </div>
+          </Carousel>
         </div>
       </div>
     </>

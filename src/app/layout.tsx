@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ClientLayout from './components/clientLayout';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -73,7 +74,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${poppins.variable} antialiased bg-[#141414]`}
       >
-        {children}
+        <ClientLayout>
+          {children}
+        </ClientLayout>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
         <link rel="apple-touch-icon" href="/icons/icon-192.png"></link>
