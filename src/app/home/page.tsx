@@ -70,6 +70,8 @@ export default function Home() {
     const handleFullscreen = () => {
       const iframe = iframeRef.current;
 
+      setTextOpen(false);
+
       if (!iframe) return;
 
       if (iframe.requestFullscreen) {
@@ -104,7 +106,7 @@ export default function Home() {
           {/* Overlay de gradiente */}
           <div 
             onClick={handleFullscreen} 
-            className={`absolute md:flex flex inset-0 bg-gradient-to-b md:h-full h-[57vw] from-[#141414] via-transparent to-[#141414] transition-opacity duration-500 ease-in-out ${
+            className={`absolute md:flex opacity-0 flex inset-0 bg-gradient-to-b md:h-full h-[57vw] from-[#141414] via-transparent to-[#141414] transition-opacity duration-500 ease-in-out ${
               !textOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
             }`}
           ></div>
