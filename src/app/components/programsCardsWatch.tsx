@@ -20,15 +20,29 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
     const video = videoRef.current;
     if (!video) return;
 
+    // Primeiro, torna o vídeo visível e prepara para fullscreen
+    setIsFullscreen(true);
+    video.style.display = 'block';
+    video.style.position = 'fixed';
+    video.style.top = '0';
+    video.style.left = '0';
+    video.style.width = '100vw';
+    video.style.height = '100vh';
+    video.style.zIndex = '9999';
+    video.style.backgroundColor = 'black';
+    document.body.style.overflow = 'hidden';
+
+    // Pequeno delay para garantir que o vídeo está visível antes de tentar fullscreen
+    await new Promise(resolve => setTimeout(resolve, 50));
+
     try {
       // Para iOS/webview, usa webkitEnterFullscreen (método nativo do iOS)
       if (isIOS && (video as any).webkitEnterFullscreen) {
         (video as any).webkitEnterFullscreen();
-        setIsFullscreen(true);
         return;
       }
 
-      // Para outros navegadores
+      // Para outros navegadores, tenta fullscreen nativo
       if (video.requestFullscreen) {
         await video.requestFullscreen();
       } else if ((video as any).webkitRequestFullscreen) {
@@ -38,20 +52,10 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
       } else if ((video as any).msRequestFullscreen) {
         await (video as any).msRequestFullscreen();
       }
+      // Se não há API de fullscreen, mantém o fallback CSS que já aplicamos
     } catch (error) {
-      console.error('Erro ao entrar em fullscreen:', error);
-      // Em caso de erro, tenta mostrar o vídeo diretamente
-      if (video) {
-        video.style.display = 'block';
-        video.style.position = 'fixed';
-        video.style.top = '0';
-        video.style.left = '0';
-        video.style.width = '100vw';
-        video.style.height = '100vh';
-        video.style.zIndex = '9999';
-        video.style.backgroundColor = 'black';
-        setIsFullscreen(true);
-      }
+      console.error('Erro ao entrar em fullscreen nativo:', error);
+      // Mantém o fallback CSS que já foi aplicado
     }
   };
 
@@ -63,11 +67,25 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
         (document as any).mozFullScreenElement ||
         (document as any).msFullscreenElement;
       
-      setIsFullscreen(!!fullscreenElement);
+      const isCurrentlyFullscreen = !!fullscreenElement;
+      setIsFullscreen(isCurrentlyFullscreen);
       
-      // Se saiu do fullscreen, reseta o estado
-      if (!fullscreenElement && videoRef.current) {
-        videoRef.current.style.display = 'none';
+      // Se saiu do fullscreen, reseta o estado e restaura scroll
+      if (!isCurrentlyFullscreen && videoRef.current) {
+        const video = videoRef.current;
+        video.style.display = '';
+        video.style.position = '';
+        video.style.top = '';
+        video.style.left = '';
+        video.style.width = '';
+        video.style.height = '';
+        video.style.zIndex = '';
+        video.style.backgroundColor = '';
+        // Restaura scroll
+        document.body.style.overflow = '';
+      } else if (isCurrentlyFullscreen) {
+        // Bloqueia scroll quando entra em fullscreen
+        document.body.style.overflow = 'hidden';
       }
     };
 
@@ -109,7 +127,21 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
 
   useEffect(() => {
     if (!isFullscreen && videoRef.current) {
-      videoRef.current.pause();
+      const video = videoRef.current;
+      video.pause();
+      // Limpa estilos e restaura scroll quando não está em fullscreen
+      video.style.display = '';
+      video.style.position = '';
+      video.style.top = '';
+      video.style.left = '';
+      video.style.width = '';
+      video.style.height = '';
+      video.style.zIndex = '';
+      video.style.backgroundColor = '';
+      document.body.style.overflow = '';
+    } else if (isFullscreen) {
+      // Bloqueia scroll quando está em fullscreen
+      document.body.style.overflow = 'hidden';
     }
   }, [isFullscreen]);
 
@@ -135,13 +167,28 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
         className={isFullscreen ? `fixed inset-0 z-[9999] bg-black` : `hidden`}
         playsInline={false}
         style={isFullscreen ? {
+          display: 'block',
+          position: 'fixed',
+          top: '0',
+          left: '0',
           width: '100vw',
           height: '100vh',
           objectFit: 'contain',
+          zIndex: 9999,
+          backgroundColor: 'black',
         } : {}}
         onEnded={() => {
           if (videoRef.current) {
-            videoRef.current.style.display = 'none';
+            const video = videoRef.current;
+            video.style.display = '';
+            video.style.position = '';
+            video.style.top = '';
+            video.style.left = '';
+            video.style.width = '';
+            video.style.height = '';
+            video.style.zIndex = '';
+            video.style.backgroundColor = '';
+            document.body.style.overflow = '';
             setIsFullscreen(false);
           }
         }}
