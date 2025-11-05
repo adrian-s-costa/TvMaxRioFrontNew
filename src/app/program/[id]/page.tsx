@@ -133,7 +133,7 @@ function Program({ params }: any ) {
               </div>
             </div>
             <div className="p-5 xl:pl-[108px] mt-5 xl:mt-20 pb-24 md:pb-5">
-              <TabComponent seasons={tvShow && tvShow.season}/>
+              <TabComponent seasons={tvShow && tvShow.season} programId={params.id}/>
             </div>
           </div>
         </div>

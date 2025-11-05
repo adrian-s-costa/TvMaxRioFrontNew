@@ -1,7 +1,12 @@
+"use client"
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function VideoCardWatch({ image, title, subtitle, showSrc }: {image: string, title: string, subtitle: string, showSrc: string}) {
+export default function VideoCardWatch({ image, title, subtitle, showSrc, programId, seasonEpisodes, currentEpisodeIndex }: {image: string, title: string, subtitle: string, showSrc: string, programId?: string, seasonEpisodes?: any[], currentEpisodeIndex?: number}) {
+  const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -14,9 +19,38 @@ export default function VideoCardWatch({ image, title, subtitle, showSrc }: {ima
     // Também detecta webview
     const isWebView = (window as any).webkit?.messageHandlers || (window as any).ReactNativeWebView;
     setIsIOS(isIOSDevice || isWebView);
+    
+    // Detecta se é mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleFullscreen = async () => {
+    // No mobile, redireciona para a página de episódio
+    if (isMobile && programId) {
+      const params = new URLSearchParams({
+        title: title,
+        subtitle: subtitle || '',
+        src: showSrc,
+        image: image || '',
+        programId: programId,
+        episodeIndex: currentEpisodeIndex?.toString() || '0'
+      });
+      
+      // Adiciona informações dos episódios da temporada se disponível
+      if (seasonEpisodes && seasonEpisodes.length > 0) {
+        params.set('episodes', JSON.stringify(seasonEpisodes));
+      }
+      
+      router.push(`/program/${programId}/episode?${params.toString()}`);
+      return;
+    }
+
+    // No desktop, abre fullscreen normalmente
     const video = videoRef.current;
     if (!video) return;
 

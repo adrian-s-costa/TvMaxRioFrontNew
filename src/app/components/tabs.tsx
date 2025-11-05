@@ -5,7 +5,7 @@ import VideoCard from "./programsCards";
 import VideoCardWatch from "./programsCardsWatch";
 import { EpisodesCarousel } from "./episodesCarousel";
 
-export function TabComponent({ seasons }: {seasons: any}) {
+export function TabComponent({ seasons, programId }: {seasons: any, programId?: string}) {
 
 const customTheme = {
   tabs: {
@@ -72,16 +72,19 @@ const customTheme = {
     <ThemeProvider theme={customTheme}>
     <Tabs className="" aria-label="Tabs with icons" variant="underline">
 
-      {seasons && seasons.map((season: any, index: number) => {
-        return <TabItem active title={season.name} className="">
+      {seasons && seasons.map((season: any, seasonIndex: number) => {
+        return <TabItem active title={season.name} className="" key={seasonIndex}>
           <EpisodesCarousel title={season.name}>
-            {season.episodes.map((episode: any, index: number)=>{
+            {season.episodes.map((episode: any, episodeIndex: number)=>{
               return <VideoCardWatch
-                key={index}
+                key={episodeIndex}
                 image={episode.thumbnailSrc}
                 title={episode.name}
                 subtitle={episode.description}
                 showSrc={episode.source}
+                programId={programId}
+                seasonEpisodes={season.episodes}
+                currentEpisodeIndex={episodeIndex}
               />
             })}
           </EpisodesCarousel>
