@@ -51,16 +51,6 @@ export default function TopNav() {
               )}
             </li>
           </Link>
-          <Link href="/home">
-            <li className='relative cursor-pointer w-auto text-white hover:text-[#bc0000] transition-all duration-300 ease-in-out hover:scale-105'>
-              <span className="relative z-10">Contato</span>
-            </li>
-          </Link>
-          <Link href="/home">
-            <li className='relative cursor-pointer w-auto text-white hover:text-[#bc0000] transition-all duration-300 ease-in-out hover:scale-105'>
-              <span className="relative z-10">Programações</span>
-            </li>
-          </Link>
           <Link href="/social">
             <li className={`relative cursor-pointer w-auto transition-all duration-300 ease-in-out ${
               pathname === '/social' 
