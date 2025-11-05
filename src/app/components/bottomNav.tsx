@@ -3,12 +3,40 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    const checkFullscreen = () => {
+      const fullscreenElement = 
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement;
+      
+      setIsFullscreen(!!fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", checkFullscreen);
+    document.addEventListener("webkitfullscreenchange", checkFullscreen);
+    document.addEventListener("mozfullscreenchange", checkFullscreen);
+    document.addEventListener("MSFullscreenChange", checkFullscreen);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", checkFullscreen);
+      document.removeEventListener("webkitfullscreenchange", checkFullscreen);
+      document.removeEventListener("mozfullscreenchange", checkFullscreen);
+      document.removeEventListener("MSFullscreenChange", checkFullscreen);
+    };
+  }, []);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50 md:hidden">
+    <nav className={`fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 z-50 md:hidden transition-transform duration-300 ${
+      isFullscreen ? 'translate-y-full' : 'translate-y-0'
+    }`}>
       <div className="flex justify-around items-center h-16 px-4">
         <Link
           href="/home"
