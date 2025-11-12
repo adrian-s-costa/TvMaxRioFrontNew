@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { urlApi } from '../../../urlApi';
-import VideoCard from '../components/programsCards'
+import VideoCardCatalog from '../components/programsCardsCatalog';
 import TopNav from '../components/topNav';
-import Carousel from '../components/carousel';
 import { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -112,31 +111,7 @@ export default function Home() {
           ></div>
 
           {/* Texto acima do player */}
-          <div 
-            className={`hidden md:block absolute top-[350px] left-[128px] w-[592px] h-auto p-5 mb-[19px] z-20 bg-white/30 backdrop-blur-md rounded-lg transition-all duration-500 ease-in-out ${
-              !textOpen 
-                ? 'opacity-0 translate-y-[-20px] scale-95 pointer-events-none' 
-                : 'opacity-100 translate-y-0 scale-100'
-            }`}
-          >
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                setTextOpen(false);
-              }} 
-              className="absolute cursor-pointer -right-[10px] -top-[10px] rounded-full w-[40px] h-[40px] flex justify-center items-center bg-white/30 backdrop-blur-md hover:bg-white/50 transition-all duration-200 hover:scale-110 z-30"
-              aria-label="Fechar"
-            >
-              <span className="text-[25px] font-semibold text-white leading-none">×</span>
-            </button>
-            <h1 className="text-[58px] text-[#bc0000] italic">TV AO VIVO</h1>
-            <h2 className="text-[18px] text-[#ffffff]">
-              Bem-vindo ao TV MAX Rio! Nosso canal é dedicado a levar até você o melhor
-              conteúdo sobre a cidade maravilhosa e seu incrível estilo de vida. Aqui você
-              encontra notícias locais, cultura, turismo, esportes, eventos e muito mais,
-              tudo com uma pegada dinâmica e atualizada.
-            </h2>
-          </div>
+          
 
           <div className={`md:mt-[100%] mt-[${viewportWidth + 'px'}] block md:hidden w-full justify-center h-auto p-5 z-10 backdrop-blur-md `}>
             <h1 className="text-[28px] text-[#bc0000] italic w-full flex justify-center">TV AO VIVO</h1>
@@ -149,19 +124,28 @@ export default function Home() {
           </div> 
         </div>
 
-        <div className="mt-14 pb-24 md:pb-14 mx-10">
-          <Carousel title="Programas">
-            {tvShows && tvShows
-              .map((tvShow: any, index: number) => {
-                return <VideoCard
+        <div className="mt-14 pb-24 md:pb-14 px-4 md:px-6 lg:px-8 xl:px-12">
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white">Programas</h1>
+          </div>
+          
+          {tvShows && tvShows.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4 lg:gap-6 w-full">
+              {tvShows.map((tvShow: any) => (
+                <VideoCardCatalog
+                  key={tvShow.id}
                   image={tvShow.showThumbSrc}
                   title={tvShow.name}
-                  subtitle={tvShow.showFrequency} 
+                  subtitle={tvShow.showFrequency}
                   showId={tvShow.id}
-                  key={tvShow.id}          
                 />
-              })}
-          </Carousel>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-400 text-lg">Nenhum programa encontrado</p>
+            </div>
+          )}
         </div>
       </div>
     </>

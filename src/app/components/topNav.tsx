@@ -14,7 +14,7 @@ export default function TopNav() {
           width={60} 
           height={110} 
           alt="logo" 
-          className='text-white ml-[100px] md:block hidden cursor-pointer' 
+          className='text-white md:ml-6 md:block hidden cursor-pointer' 
         />
         <img 
           src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" 
@@ -59,6 +59,18 @@ export default function TopNav() {
             }`}>
               <span className="relative z-10">Social</span>
               {pathname === '/social' && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#bc0000] animate-pulse"></span>
+              )}
+            </li>
+          </Link>
+          <Link href="/profile">
+            <li className={`relative cursor-pointer w-auto transition-all duration-300 ease-in-out ${
+              pathname === '/profile' 
+                ? 'text-[#bc0000] scale-110' 
+                : 'text-white hover:text-[#bc0000] hover:scale-105'
+            }`}>
+              <span className="relative z-10">Perfil</span>
+              {pathname === '/profile' && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#bc0000] animate-pulse"></span>
               )}
             </li>
