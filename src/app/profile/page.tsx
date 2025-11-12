@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import TopNav from '../components/topNav';
-import { User, Plus, Trash2, Edit2 } from 'lucide-react';
+import { User, Plus, Trash2, Edit2, MoreVertical } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -20,13 +20,30 @@ export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<string | null>(null);
   const [newProfileName, setNewProfileName] = useState('');
   const [editingName, setEditingName] = useState('');
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
   useEffect(() => {
     const savedProfiles = localStorage.getItem('tvmax_profiles');
     if (savedProfiles) {
       setProfiles(JSON.parse(savedProfiles));
     }
-  }, []);
+
+    // Fecha o menu ao clicar fora
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.profile-menu-button') && !target.closest('.profile-actions-overlay')) {
+        setOpenMenuId(null);
+      }
+    };
+
+    if (openMenuId) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [openMenuId]);
 
   const handleCreateProfile = () => {
     if (!newProfileName.trim()) {
@@ -68,6 +85,12 @@ export default function ProfilePage() {
     setProfiles(updatedProfiles);
     localStorage.setItem('tvmax_profiles', JSON.stringify(updatedProfiles));
     
+    // Se o perfil editado é o selecionado, atualiza o BottomNav
+    const selectedProfile = localStorage.getItem('tvmax_selected_profile');
+    if (selectedProfile === profileId) {
+      window.dispatchEvent(new Event('profileChanged'));
+    }
+    
     setIsEditing(null);
     setEditingName('');
     toast.success('Perfil atualizado!');
@@ -95,8 +118,15 @@ export default function ProfilePage() {
 
   const handleSelectProfile = (profileId: string) => {
     localStorage.setItem('tvmax_selected_profile', profileId);
+    // Dispara evento para atualizar o BottomNav
+    window.dispatchEvent(new Event('profileChanged'));
     toast.success('Perfil selecionado!');
     router.push('/home');
+  };
+
+  const handleSwitchProfile = () => {
+    localStorage.removeItem('tvmax_selected_profile');
+    window.location.href = '/home';
   };
 
   // Função para gerar iniciais do nome
@@ -110,10 +140,10 @@ export default function ProfilePage() {
       // Nome simples: primeira letra
       return words[0].charAt(0).toUpperCase();
     } else {
-      // Nome composto: duas primeiras letras de cada nome
+      // Nome composto: primeira letra de cada nome (máximo 2 nomes)
       return words
         .slice(0, 2) // Pega os dois primeiros nomes
-        .map(word => word.substring(0, 2).toUpperCase())
+        .map(word => word.charAt(0).toUpperCase())
         .join('');
     }
   };
@@ -126,8 +156,18 @@ export default function ProfilePage() {
       <div className="px-4 md:px-6 lg:px-8 xl:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="mb-8 md:mb-12">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-2">Gerenciar Perfis</h1>
-            <p className="text-gray-400 text-sm md:text-base">Crie e gerencie seus perfis de visualização</p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+              <div>
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-2">Gerenciar Perfis</h1>
+                <p className="text-gray-400 text-sm md:text-base">Crie e gerencie seus perfis de visualização</p>
+              </div>
+              <button
+                onClick={handleSwitchProfile}
+                className="px-4 py-2 bg-[#bc0000] rounded-lg text-white hover:bg-[#9d0000] transition-colors text-sm md:text-base"
+              >
+                Trocar Perfil
+              </button>
+            </div>
           </div>
           
           <div className="flex flex-wrap gap-4 md:gap-6 mb-8">
@@ -147,24 +187,50 @@ export default function ProfilePage() {
                     </div>
                   )}
                   
-                  {/* Botões de ação */}
-                  <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  {/* Botão de 3 pontos no mobile */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenMenuId(openMenuId === profile.id ? null : profile.id);
+                    }}
+                    className="profile-menu-button md:hidden absolute top-2 right-2 p-1.5 bg-black/70 rounded-full hover:bg-black/90 active:bg-black/90 transition-colors z-10"
+                  >
+                    <MoreVertical size={18} className="text-white" />
+                  </button>
+                  
+                  {/* Botões de ação - aparecem no hover (desktop) ou ao clicar nos 3 pontos (mobile) */}
+                  <div className={`profile-actions-overlay absolute inset-0 bg-black/70 flex items-center justify-center gap-2 transition-opacity ${
+                    openMenuId === profile.id
+                      ? 'opacity-100 md:opacity-0'
+                      : 'opacity-0'
+                  } md:group-hover:opacity-100`}>
                     <button
-                      onClick={() => handleEditProfile(profile.id)}
-                      className="p-2 bg-[#bc0000] rounded-full hover:bg-[#9d0000] transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditProfile(profile.id);
+                        setOpenMenuId(null);
+                      }}
+                      className="p-2 bg-[#bc0000] rounded-full hover:bg-[#9d0000] active:bg-[#9d0000] transition-colors"
                       title="Editar"
                     >
                       <Edit2 size={20} className="text-white" />
                     </button>
-                    {profiles.length > 1 && (
-                      <button
-                        onClick={() => handleDeleteProfile(profile.id)}
-                        className="p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors"
-                        title="Excluir"
-                      >
-                        <Trash2 size={20} className="text-white" />
-                      </button>
-                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteProfile(profile.id);
+                        setOpenMenuId(null);
+                      }}
+                      className={`p-2 rounded-full transition-colors ${
+                        profiles.length > 1
+                          ? 'bg-red-600 hover:bg-red-700 active:bg-red-700'
+                          : 'bg-gray-600 opacity-50 cursor-not-allowed'
+                      }`}
+                      title={profiles.length > 1 ? "Excluir" : "Você precisa ter pelo menos um perfil"}
+                      disabled={profiles.length <= 1}
+                    >
+                      <Trash2 size={20} className="text-white" />
+                    </button>
                   </div>
                 </div>
                 
@@ -175,7 +241,8 @@ export default function ProfilePage() {
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSaveEdit(profile.id)}
-                      className="px-3 py-2 bg-[#1a1a1a] border border-gray-600 rounded text-white text-sm w-full max-w-[140px] focus:outline-none focus:border-[#bc0000] text-center"
+                      className="px-3 py-2 bg-[#1a1a1a] border border-gray-600 rounded text-white text-base w-full max-w-[140px] focus:outline-none focus:border-[#bc0000] text-center"
+                      style={{ fontSize: '16px' }}
                       autoFocus
                     />
                     <div className="flex gap-2">
@@ -235,6 +302,7 @@ export default function ProfilePage() {
                   onKeyPress={(e) => e.key === 'Enter' && handleCreateProfile()}
                   placeholder="Nome do perfil"
                   className="w-full px-4 py-3 bg-[#141414] border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#bc0000]"
+                  style={{ fontSize: '16px' }}
                   autoFocus
                 />
                 

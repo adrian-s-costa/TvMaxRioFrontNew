@@ -93,7 +93,7 @@ export default function Home() {
           {/* Player em iframe */}
           <iframe
             ref={iframeRef}
-            className="md:absolute inset-0 md:w-full md:h-full object-cover"
+            className="md:absolute inset-0 w-full md:w-full md:h-full object-cover"
             src="https://player.logicahost.com.br/player.php?player=1856"
             frameBorder="0"
             allow="autoplay; fullscreen"

@@ -8,6 +8,48 @@ import { useEffect, useState } from 'react';
 export default function BottomNav() {
   const pathname = usePathname();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<{ name: string; initials: string } | null>(null);
+
+  useEffect(() => {
+    const loadSelectedProfile = () => {
+      const savedSelectedProfile = localStorage.getItem('tvmax_selected_profile');
+      const savedProfiles = localStorage.getItem('tvmax_profiles');
+      
+      if (savedSelectedProfile && savedProfiles) {
+        const profiles = JSON.parse(savedProfiles);
+        const profile = profiles.find((p: any) => p.id === savedSelectedProfile);
+        
+        if (profile) {
+          const words = profile.name.trim().split(/\s+/).filter((word: string) => word.length > 0);
+          let initials = '';
+          if (words.length === 1) {
+            initials = words[0].charAt(0).toUpperCase();
+          } else {
+            // Nome composto: primeira letra de cada nome (máximo 2 nomes)
+            initials = words
+              .slice(0, 2)
+              .map((word: string) => word.charAt(0).toUpperCase())
+              .join('');
+          }
+          setSelectedProfile({ name: profile.name, initials });
+        }
+      }
+    };
+
+    loadSelectedProfile();
+    
+    const handleStorageChange = () => {
+      loadSelectedProfile();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('profileChanged', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('profileChanged', handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const checkFullscreen = () => {
@@ -110,7 +152,13 @@ export default function BottomNav() {
           }`}
         >
           <div className={`transition-transform duration-300 ${pathname === '/profile' ? 'scale-110' : ''}`}>
-            <User size={20} />
+            {selectedProfile ? (
+              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#bc0000] to-[#8b0000] flex items-center justify-center">
+                <span className="text-[10px] font-bold text-white">{selectedProfile.initials}</span>
+              </div>
+            ) : (
+              <User size={20} />
+            )}
           </div>
           <span className={`text-[10px] font-medium transition-all duration-300 ${
             pathname === '/profile' ? 'font-bold' : 'font-medium'

@@ -26,10 +26,10 @@ export default function ProfileSelector({ onSelectProfile }: { onSelectProfile: 
       // Nome simples: primeira letra
       return words[0].charAt(0).toUpperCase();
     } else {
-      // Nome composto: duas primeiras letras de cada nome
+      // Nome composto: primeira letra de cada nome (máximo 2 nomes)
       return words
         .slice(0, 2) // Pega os dois primeiros nomes
-        .map(word => word.substring(0, 2).toUpperCase())
+        .map(word => word.charAt(0).toUpperCase())
         .join('');
     }
   };
@@ -68,6 +68,8 @@ export default function ProfileSelector({ onSelectProfile }: { onSelectProfile: 
   const handleSelectProfile = (profileId: string) => {
     setSelectedProfileId(profileId);
     localStorage.setItem('tvmax_selected_profile', profileId);
+    // Dispara evento para atualizar o BottomNav
+    window.dispatchEvent(new Event('profileChanged'));
     onSelectProfile(profileId);
   };
 
@@ -129,6 +131,7 @@ export default function ProfileSelector({ onSelectProfile }: { onSelectProfile: 
               onKeyPress={(e) => e.key === 'Enter' && handleCreateProfile()}
               placeholder="Nome do perfil"
               className="w-full px-4 py-3 bg-[#1a1a1a] border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#bc0000]"
+              style={{ fontSize: '16px' }}
               autoFocus
             />
             
