@@ -80,7 +80,7 @@ function Program({ params }: any ) {
     <div className='min-h-screen h-full w-full bg-[#141414] relative font-[Poppins]'>
         <TopNav />
         
-        <div className="w-full min-h-screen h-[56rem] xl:h-[64rem] bg-[url(https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655252/b9c740d1d10c247dc76958a892f54d110022ab2d_zrncwn.jpg)] bg-cover bg-center relative">
+        <div className="w-full min-h-screen h-[56rem] xl:h-[64rem] bg-black bg-cover bg-center relative">
           <div className="absolute h-full inset-0 xl:bg-gradient-to-r bg-[#14141449] xl:from-[#141414]  xl:via-transparent xl:via-60% xl:to-transparent">
             <div className="w-full xl:w-[32%] text-white pt-[120px] md:pt-[150px] xl:pt-[188px] px-5 md:px-8 xl:pl-[108px] xl:pr-0">
               {/* Título */}
