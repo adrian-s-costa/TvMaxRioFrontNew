@@ -1,9 +1,9 @@
 "use client"
 
 import Link from 'next/link';
-import { urlApi } from '../../../urlApi';
-import VideoCardCatalog from '../components/programsCardsCatalog';
-import TopNav from '../components/topNav';
+import { urlApi } from '../../urlApi';
+import VideoCardCatalog from '../app/components/programsCardsCatalog';
+import TopNav from '../app/components/topNav';
 import { useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
