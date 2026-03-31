@@ -5,9 +5,9 @@
   "display": "standalone",
   "name": "TV Max Rio",
   "orientation": "natural",
-  "scope": "/home",
+  "scope": "/",
   "short_name": "TV Max Rio",
-  "start_url": "/home",
+  "start_url": "/",
   "theme_color": "#ff0000",
   "icons": [
     {

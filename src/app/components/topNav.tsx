@@ -8,7 +8,7 @@ export default function TopNav() {
 
   return (
     <div className='w-full flex justify-between pt-[20px] z-10 absolute'>
-      <Link href="/home">
+      <Link href="/">
         <img 
           src="https://res.cloudinary.com/dmo7nzytn/image/upload/v1755655466/09fa9195634d318711940d331b600d897d2a8187_1_bh67vv.png" 
           width={60} 
@@ -27,14 +27,14 @@ export default function TopNav() {
       
       <div>
         <ul className='hidden md:flex text-white h-full items-center gap-[30px] mr-[40px] w-full'>
-          <Link href="/home">
+          <Link href="/">
             <li className={`relative cursor-pointer w-auto transition-all duration-300 ease-in-out ${
-              pathname === '/home' 
+              pathname === '/' 
                 ? 'text-[#bc0000] scale-110' 
                 : 'text-white hover:text-[#bc0000] hover:scale-105'
             }`}>
               <span className="relative z-10">Ao Vivo</span>
-              {pathname === '/home' && (
+              {pathname === '/' && (
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#bc0000] animate-pulse"></span>
               )}
             </li>

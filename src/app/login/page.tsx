@@ -64,7 +64,7 @@ export default function Login(){
 
     //   setUserData(userData);
       setLoading(false);
-      router.push('/home')
+      router.push('/')
     } catch (error) {
       setLoading(false);
       console.error('Error logging in:', error);
@@ -91,7 +91,7 @@ export default function Login(){
 
     // setUserData(userData);
     setLoading(false);
-    router.push('/home')
+    router.push('/')
   }
   
   const sendEmailCode = async (e: { preventDefault: () => void; }) => {

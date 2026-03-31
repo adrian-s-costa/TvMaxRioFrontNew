@@ -121,12 +121,12 @@ export default function ProfilePage() {
     // Dispara evento para atualizar o BottomNav
     window.dispatchEvent(new Event('profileChanged'));
     toast.success('Perfil selecionado!');
-    router.push('/home');
+    router.push('/');
   };
 
   const handleSwitchProfile = () => {
     localStorage.removeItem('tvmax_selected_profile');
-    window.location.href = '/home';
+    window.location.href = '/';
   };
 
   // Função para gerar iniciais do nome
